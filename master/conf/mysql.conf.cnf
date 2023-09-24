@@ -1,0 +1,9 @@
+[mysqld]
+
+skip-name-resolve
+default_authentication_plugin = mysql_native_password
+
+server-id=1
+log-bin=mysql-bin
+binlog-format=row
+binlog-do-db=mydb

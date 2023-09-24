@@ -1,0 +1,37 @@
+version: "3"
+services:
+  mysql-master:
+    container_name: MASTER
+    image: mysql:8.0
+    env_file:
+      - ./master/master.env
+    volumes:
+      - ./master/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./master/data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - overlay
+  mysql-slave:
+    container_name: SLAVE
+    image: mysql:8.0
+    env_file:
+      - ./slave/slave.env
+    volumes:
+      - ./slave/conf/mysql.conf.cnf:/etc/mysql/conf.d/mysql.conf.cnf
+      - ./slave/data:/var/lib/mysql
+    ports:
+      - "3307:3306"
+    networks:
+      - overlay
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    environment:
+      - PMA_ARBITRARY=1
+    ports:
+      - "8080:80"
+    networks:
+      - overlay
+
+networks:
+  overlay:
